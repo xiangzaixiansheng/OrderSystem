@@ -3,8 +3,8 @@ package main
 import (
 	_ "OrderSystem/routers"
 
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/plugins/cors"
+	beego "github.com/beego/beego/v2/server/web"
+	"github.com/beego/beego/v2/server/web/filter/cors"
 )
 
 func main() {
