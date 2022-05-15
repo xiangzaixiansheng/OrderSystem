@@ -3,9 +3,10 @@ package routers
 import (
 	"OrderSystem/controllers"
 
-	beego "github.com/beego/beego/v2/server/web"
+	"github.com/astaxie/beego"
 )
 
 func init() {
-	beego.Router("/", &controllers.MainController{})
+	//beego.Router("/", &controllers.MainController{})
+	beego.Include(&controllers.OrderController{})
 }
