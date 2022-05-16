@@ -27,7 +27,7 @@ func PoolConnect() redis.Conn {
 				return nil, err
 			}
 			// 选择db
-			//c.Do("SELECT", '')
+			c.Do("SELECT", '0')
 			return c, nil
 		},
 	}

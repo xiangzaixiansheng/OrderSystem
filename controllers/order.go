@@ -11,7 +11,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/astaxie/beego"
+	//"github.com/astaxie/beego"
+	beego "github.com/beego/beego/v2/server/web"
 	"github.com/garyburd/redigo/redis"
 )
 
@@ -124,22 +125,25 @@ type ExpireTime struct {
 	End   string `json:"end"`
 }
 
-// @router /cache/set [*]
+// @router /cache/set [post]
 func (this *OrderController) Set() {
 	redisConn := redisClient.PoolConnect()
 	defer redisConn.Close()
 	redisConn.Do("set", "go_stock:1", 10)
 
 	xt := &ExpireTime{}
-	xt.Start = "2021-01-15 00:00:00"
-	xt.End = "2021-02-15 00:00:00"
+	xt.Start = "2022-05-16 00:00:00"
+	xt.End = "2022-06-15 00:00:00"
 	data, _ := json.Marshal(xt)
-	redisConn.Do("set", "go_expire:1", string(data))
-
+	_, err := redisConn.Do("set", "go_expire:1", string(data))
+	if err != nil {
+		this.Ctx.WriteString("设置缓存失败")
+		return
+	}
 	this.Ctx.WriteString("设置缓存成功")
 }
 
-// @router /cache/get [*]
+// @router /cache/get [get]
 func (this *OrderController) Get() {
 	redisConn := redisClient.PoolConnect()
 	defer redisConn.Close()
@@ -149,12 +153,10 @@ func (this *OrderController) Get() {
 	if err != nil {
 		this.Ctx.WriteString("商品秒杀时间缓存不存在")
 	} else {
-
 		err := json.Unmarshal([]byte(expire), &xt)
 		fmt.Println(err)
 		fmt.Println(xt.Start)
 		fmt.Println(xt.End)
-
 	}
 
 	stock, err := redis.String(redisConn.Do("get", "go_stock:1"))
@@ -184,7 +186,7 @@ func (this *OrderController) Get() {
 	//	fmt.Println(err)
 	//}
 	//
-	//id,err := models.SaveOrder("golang3567891qwqw2",2, "广州")
+	//id,err := models.SaveOrder("golang3567891qwqw2",2, "北京")
 	//if err == nil{
 	//	err := models.SaveItem(id,1)
 	//	if err != nil{

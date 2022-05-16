@@ -2,6 +2,7 @@ package main
 
 import (
 	_ "OrderSystem/routers"
+	"fmt"
 
 	"github.com/beego/beego/logs"
 	"github.com/beego/beego/orm"
@@ -22,6 +23,7 @@ func main() {
 	}
 	defaultdb, _ := web.AppConfig.String("defaultdb")
 	orm.RegisterDriver("mysql", orm.DRMySQL)
+	fmt.Println(defaultdb)
 	orm.RegisterDataBase("default", "mysql", defaultdb, 30, 30)
 
 	web.InsertFilter("*", web.BeforeRouter, cors.Allow(&cors.Options{
@@ -31,5 +33,10 @@ func main() {
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 	}))
+
+	if web.BConfig.RunMode == "dev" {
+		web.BConfig.WebConfig.DirectoryIndex = true
+		web.BConfig.WebConfig.StaticDir["/swagger"] = "swagger"
+	}
 	web.Run()
 }
