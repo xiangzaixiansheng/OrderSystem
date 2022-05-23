@@ -14,7 +14,7 @@ func init() {
 	n := runtime.GOMAXPROCS(runtime.NumCPU())
 	fmt.Println(n)
 }
-func main() {
+func test_runtime() {
 	//获取goroot目录
 	fmt.Println("GOROOT-->", runtime.GOROOT()) //GOROOT--> /usr/local/go
 	//获取操作系统
