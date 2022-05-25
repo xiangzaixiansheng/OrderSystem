@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"./example"
+	"OrderSystem/learn/12protobuffer/ProtocDemo/example"
+
 	"github.com/golang/protobuf/proto"
 )
 

@@ -1,0 +1,15 @@
+syntax = "proto2";
+package example;
+option go_package = "./example";
+
+message Order{
+    required int32 order_id = 1; //1代表字段顺序
+    optional int64 num = 2;
+    optional string timestamp = 3;
+    optional string basce = 4 [default = 'beijing'];
+}
+
+//protoc --go_out = . order.proto
+//protoc --go_out=. *.proto
+
+
