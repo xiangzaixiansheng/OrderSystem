@@ -39,4 +39,29 @@ func main() {
 	fmt.Printf("年龄：%d\n\n", msgEntity.GetAge())
 	fmt.Printf("国籍：%s\n\n", msgEntity.GetFrom())
 
+	//=============================
+	msg_test2 := &example.Order{
+		OrderId:   proto.Int(12),
+		Timestamp: proto.String("345"),
+		Basce:     proto.String("beijing"),
+	}
+
+	//序列化
+	msgDataEncoding2, err := proto.Marshal(msg_test2)
+	if err != nil {
+		panic(err.Error())
+		return
+	}
+
+	//反序列化：
+	msgEntity2 := example.Order{}
+	err = proto.Unmarshal(msgDataEncoding2, &msgEntity2)
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+		return
+	}
+	fmt.Printf("orderid%d\n\n", msgEntity2.GetOrderId())
+	fmt.Printf("Basce%s\n\n", msgEntity2.GetBasce())
+
 }
