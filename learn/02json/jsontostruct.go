@@ -1,8 +1,9 @@
-package learn
+package main
 
 import (
 	"encoding/json"
 	"fmt"
+	"time"
 )
 
 type Server struct {
@@ -20,6 +21,11 @@ type Server1 struct {
 }
 type Serverslice1 struct {
 	Servers1 []Server1 `json:"servers"`
+}
+
+type ExpireTime struct {
+	Start string `json:"start"`
+	End   string `json:"end"`
 }
 
 //Json解析到结构体
@@ -62,4 +68,9 @@ func main() {
 		fmt.Println(k, ":", v)
 	}
 
+	et := &ExpireTime{}
+	et.Start = time.Now().Format("2006-01-02 15:04:05")
+	et.End = time.Now().Format("2006-01-02 15:04:05")
+	et_1, err := json.Marshal(et)
+	fmt.Printf("测试", string(et_1))
 }
